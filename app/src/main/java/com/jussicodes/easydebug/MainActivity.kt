@@ -437,7 +437,10 @@ fun SettingsScreen(
                     // 这里会自动显示获取到的真实版本号！
                     Text("版本：$appVersionName")
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("这是一款利用 Root 权限快速开关无线调试的极客工具。采用原生 Jetpack Compose 构建，支持 Material Design 3 动态主题。")
+                    Text("作者：jussicodes")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("用 Root 权限快速开关无线调试的工具。采用原生 Jetpack Compose 构建。")
+                    Spacer(modifier = Modifier.height(8.dp))
                 }
             },
             confirmButton = { TextButton(onClick = { showAboutDialog = false }) { Text("确定") } }
