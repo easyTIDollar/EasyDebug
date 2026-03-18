@@ -362,7 +362,7 @@ fun WirelessDebuggingScreen(onNavigateToSettings: () -> Unit) {
 }
 
 // ==========================================
-// 7. 设置页面 (保持不变)
+// 7. 设置页面 (支持自动读取版本号)
 // ==========================================
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -373,8 +373,18 @@ fun SettingsScreen(
     selectedColorIndex: Int,
     onColorSelect: (Int) -> Unit
 ) {
+    val context = LocalContext.current
     var showAboutDialog by remember { mutableStateOf(false) }
     val isDynamicColorSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    // 动态获取系统底层真实的版本号 (也就是 build.gradle.kts 里的 versionName)
+    val appVersionName = remember {
+        try {
+            context.packageManager.getPackageInfo(context.packageName, 0).versionName ?: "未知版本"
+        } catch (e: Exception) {
+            "未知版本"
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -424,7 +434,8 @@ fun SettingsScreen(
             title = { Text("关于 EasyDebug") },
             text = {
                 Column {
-                    Text("版本：1.0.0")
+                    // 这里会自动显示获取到的真实版本号！
+                    Text("版本：$appVersionName")
                     Spacer(modifier = Modifier.height(8.dp))
                     Text("这是一款利用 Root 权限快速开关无线调试的极客工具。采用原生 Jetpack Compose 构建，支持 Material Design 3 动态主题。")
                 }
